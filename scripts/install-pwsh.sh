@@ -7,9 +7,8 @@ arch=$(getconf LONG_BIT)
 default="7.3.4"
 
 pushd $bin > /dev/null
-
-echo "[$i/$n] define pwsh release (e.g. $default)"
-read -p "enter version: " version
+echo "[$i/$n] choose pwsh release (e.g. $default)"
+read -p "version: " version
 [ -z $version ] && version=$default
 ((i++))
 
@@ -22,13 +21,14 @@ apt-get install libssl1.1 libunwind8 -y
 ((i++))
 
 echo "[$i/$n] downloading tarball"
-wget https://github.com/PowerShell/PowerShell/releases/download/v$version/powershell-$version-linux-arm$arch.tar.gz
+tarball=powershell-$version-linux-arm$arch.tar.gz
+wget https://github.com/PowerShell/PowerShell/releases/download/v$version/$tarball
 ((i++))
 
 pwshdir=$bin/powershell
 echo "[$i/$n] unpacking tarball to $pwshdir . . ."
 [ -d $pwshdir ] || mkdir $pwshdir
-tar -xvf $bin/powershell-$version-linux-arm$arch.tar.gz -C $pwshdir > /dev/null
+tar -xvf $bin/$tarball -C $pwshdir > /dev/null
 ((i++))
 
 echo "[$i/$n] creating symbolic link"
@@ -36,6 +36,6 @@ ln -s $pwshdir/pwsh /usr/bin/pwsh
 ((i++))
 
 echo "[$i/$n] installation complete, initiating cleanup . . ."
-rm $bin/powershell-$version-linux-arm$arch.tar.gz --verbose
+rm $bin/$tarball --verbose
 popd > /dev/null
 echo "done"
