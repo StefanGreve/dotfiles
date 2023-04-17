@@ -27,7 +27,7 @@ wget https://mirrors.edge.kernel.org/pub/software/scm/git/$tarball
 gitdir=$bin/git
 echo "[$i/$n] unpacking tarball to $gitdir . . ."
 [ -d $gitdir ] || mkdir $gitdir
-tar -xvf $bin/$tarball -C $gitdir > /dev/null
+tar -xzf $bin/$tarball -C $gitdir
 ((i++))
 
 echo "[$i/$n] installing git"

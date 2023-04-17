@@ -28,7 +28,7 @@ wget https://github.com/PowerShell/PowerShell/releases/download/v$version/$tarba
 pwshdir=$bin/powershell
 echo "[$i/$n] unpacking tarball to $pwshdir . . ."
 [ -d $pwshdir ] || mkdir $pwshdir
-tar -xvf $bin/$tarball -C $pwshdir > /dev/null
+tar -xzf $bin/$tarball -C $pwshdir
 ((i++))
 
 echo "[$i/$n] creating symbolic link"
