@@ -46,7 +46,7 @@ make install
 ((i++))
 
 echo "[$i/$n] verifying installation"
-$pythondir/$version/bin/python3 --version
+$pythondir/bin/python3 --version
 ((i++))
 
 echo "[$i/$n] creating symbolic link"
