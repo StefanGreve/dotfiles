@@ -1,7 +1,7 @@
 #!/bin/bash
 
 i=1
-n=10
+n=9
 bin=/usr/local
 default="3.10.9"
 
@@ -36,16 +36,13 @@ cd $pythondir/Python-$version
     --prefix=$pythondir \
     --enable-shared \
     --enable-optimizations \
+    --with-lto \
     --enable-ipv6 \
+    --with-ensurepip=upgrade \
     LDFLAGS=-Wl,-rpath=$pythondir/lib,--disable-new-dtags
 
 make
 make install
-((i++))
-
-echo "[$i/$n] installing pip . . ."
-wget https://bootstrap.pypa.io/get-pip.py
-$pythondir/$version/bin/python3 get-pip.py
 ((i++))
 
 echo "[$i/$n] verifying installation"
