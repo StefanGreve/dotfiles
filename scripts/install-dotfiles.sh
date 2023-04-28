@@ -6,7 +6,7 @@ create_symlink() {
     local src=$1 dst=$2
 
     if [ ! -L $dst ]; then
-        ln -s $src $dst -v
+        ln -s $src $dst -v -f
     fi
 }
 
