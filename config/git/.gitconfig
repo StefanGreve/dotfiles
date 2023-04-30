@@ -3,6 +3,17 @@
     email = greve.stefan@outlook.jp
 [core]
     editor = nvim
+    pager = delta --syntax-theme='Solarized (dark)' --dark
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+[delta]
+    navigate = true
+    light = false
+    features = decorations
+[diff]
+    colorMoved = default
+[merge]
+    conflictStyle = diff3
 [blame]
     hyperlinks = true
 [init]
