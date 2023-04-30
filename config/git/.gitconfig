@@ -1,3 +1,23 @@
 [user]
-name=StefanGreve
-email=greve.stefan@outlook.jp
+    name = StefanGreve
+    email = greve.stefan@outlook.jp
+[core]
+    editor = nvim
+[blame]
+    hyperlinks = true
+[init]
+    defaultBranch = master
+[alias]
+    unstage = reset HEAD --
+    uncommmit = reset --soft HEAD^1
+    last = log -n 1 HEAD
+    push-notes = push origin refs/notes/*
+    pull-notes = fetch origin refs/notes/*:refs/notes/*
+    ls-ignored = ls-files . --ignored --exclude-standard --others
+	ls-untracked = ls-files . --exclude-standard --others
+[safe]
+    directory = *
+[help]
+    autocorrect = 30
+[credential]
+    helper = cache
