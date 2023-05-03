@@ -33,21 +33,60 @@ writeln() {
 }
 
 write_success() {
+    local args="$@"
     writeln -m "[ ok ]" -c green
-    printf "$1\n"
+    printf "$args\n"
 }
 
 write_info() {
+    local args="$@"
     writeln -m "[ info ]" -c blue
-    printf "$1\n"
+    printf "$args\n"
 }
 
 write_warning() {
+    local args="$@"
     writeln -m "[ warning ]" -c yellow
-    printf "$1\n"
+    printf "$args\n"
 }
 
 write_error() {
+    local args="$@"
     writeln -m "[ error ]" -c red
-    printf "$1\n"
+    printf "$args\n"
 }
+
+#region installer file utilities
+
+read_version() {
+    # global args: program, default, version
+    local msg="enter target version for $program"
+
+    if [ ! -z $default ]; then
+        msg+=" (e.g. $default)"
+    fi
+
+    write_info $msg
+    read -p "version: " version
+    [ -z $version ] && version=$default
+}
+
+update_system() {
+    write_info "updating system"
+    apt-get update
+}
+
+install_packages() {
+    local packages="$@"
+    write_info "installing prerequisites"
+    apt-get install $packages --yes
+}
+
+download_tarball() {
+    local url=$1
+    local out=$2
+    write_info "downloading tarball to $PWD"
+    wget $url -O $out
+}
+
+#endregion
