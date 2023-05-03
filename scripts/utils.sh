@@ -89,4 +89,10 @@ download_tarball() {
     wget $url -O $out
 }
 
+clean_up() {
+    local artifacts="$@"
+    write_info "removing tmp files and build artifacts"
+    rm $artifacts --verbose
+}
+
 #endregion

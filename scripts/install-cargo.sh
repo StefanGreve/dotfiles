@@ -16,6 +16,5 @@ bash $script -y
 write_info "reconfiguring current shell"
 source "$HOME/.cargo/env"
 
-write_info "installation complete, initiating cleanup . . ."
-rm $script
+clean_up $script
 popd > /dev/null
