@@ -30,6 +30,11 @@ source "$HOME/.cargo/env"
 cargo install \
       git-delta \
       bat \
-      exa
+      exa \
+      ripgrep \
+      fd-find \
+      du-dust \
+      procs \
+      tokei
 
 echo "done"
