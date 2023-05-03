@@ -12,11 +12,13 @@ sudo bash ./install-dotfiles.sh
 
 <details>
 <summary>Further Notes</summary>
+
 In a few cases `cargo install` in `install-common.sh` may fail to install certain
 programs on some Unix distributions if there are no binary packages to be found for
 your distribution. Installing `cargo` from `apt` may also give you an outdated version
 of Rust, which is why this script will install `cargo` from source if cargo could
 not be detected on your system.
+
 </details>
 
 ## Opt-In Customizations
