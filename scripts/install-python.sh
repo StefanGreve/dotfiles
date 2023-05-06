@@ -1,59 +1,46 @@
 #!/bin/bash
 
-i=1
-n=9
+root=$(git rev-parse --show-toplevel)
+. $root/scripts/utils.sh
+
 bin=/usr/local
+program="python"
+targetdir=$bin/$program
 default="3.10.9"
 
+[ -d $targetdir ] || mkdir -p $targetdir
 pushd $bin > /dev/null
-echo "[$i/$n] choose python release (e.g. $default)"
-read -p "version: " version
-[ -z $version ] && version=$default
-((i++))
+read_version
 
-echo "[$i/$n] updating system"
-apt-get update
-((i++))
+update_system
 
-echo "[$i/$n] installing prerequisites"
-apt-get install gdebi-core build-dep python libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev -y
-((i++))
+packages="gdebi-core python libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev"
+install_packages $packages
 
-echo "[$i/$n] downloading tarball"
 tarball=Python-$version.tgz
-wget https://www.python.org/ftp/python/$version/$tarball
-((i++))
+url=https://www.python.org/ftp/python/$version/$tarball
+download_tarball $url "$targetdir/$tarball"
 
-pythondir=$bin/python
-echo "[$i/$n] unpacking tarball to $pythondir . . ."
-[ -d $pythondir ] || mkdir $pythondir
-tar -xzf $bin/$tarball -C $pythondir
-((i++))
+unpacking_tarball $targetdir/$tarball $targetdir
 
-echo "[$i/$n] installing python"
-cd $pythondir/Python-$version
+write_info "installing $program now"
+cd $targetdir/Python-$version
 ./configure \
-    --prefix=$pythondir \
+    --prefix=$targetdir \
     --enable-shared \
     --enable-optimizations \
     --with-lto \
     --enable-ipv6 \
     --with-ensurepip=upgrade \
-    LDFLAGS=-Wl,-rpath=$pythondir/lib,--disable-new-dtags
+    LDFLAGS=-Wl,-rpath=$targetdir/lib,--disable-new-dtags
 
 make
 make install
-((i++))
 
-echo "[$i/$n] verifying installation"
-$pythondir/bin/python3 --version
-((i++))
+verify_program $targetdir/bin/python3
 
-echo "[$i/$n] creating symbolic link"
-ln -s $pythondir/bin/python3 /usr/bin/python3
-((i++))
+make_symlink $targetdir/bin/python3 /usr/bin/python3
 
-echo "[$i/$n] installation complete, initiating cleanup . . ."
-rm $bin/$tarball ./get-pip.py --verbose
+clean_up ./get-pip.py $targetdir/$tarball
+write_success "installation is complete"
 popd > /dev/null
-echo "done"
