@@ -1,17 +1,10 @@
 #!/bin/bash
 
-DOTFILES=$(git rev-parse --show-toplevel)
-
-create_symlink() {
-    local src=$1 dst=$2
-
-    if [ ! -L $dst ]; then
-        ln -s $src $dst -v -f
-    fi
-}
+root=$(git rev-parse --show-toplevel)
+. $root/scripts/utils.sh
 
 install_dotfiles() {
-    find -H $DOTFILES -maxdepth 3 -name "links.prop" | while read linkfile
+    find -H $root -maxdepth 3 -name "links.prop" | while read linkfile
     do
         cat $linkfile | while read line
         do
@@ -24,12 +17,12 @@ install_dotfiles() {
                 mkdir -p $dir > /dev/null
             fi
 
-            create_symlink $src $dst
+            make_symlink $src $dst
         done
     done
 }
 
-pushd $DOTFILES > /dev/null
+pushd $root > /dev/null
 install_dotfiles
 echo "done"
 popd > /dev/null
