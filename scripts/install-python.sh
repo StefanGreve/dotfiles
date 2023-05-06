@@ -14,12 +14,11 @@ read_version
 
 update_system
 
-packages="gdebi-core python libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev"
-install_packages $packages
+install_packages "gdebi-core python libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev"
 
 tarball=Python-$version.tgz
 url=https://www.python.org/ftp/python/$version/$tarball
-download_tarball $url "$targetdir/$tarball"
+download_tarball $url $targetdir/$tarball
 
 unpacking_tarball $targetdir/$tarball $targetdir
 
