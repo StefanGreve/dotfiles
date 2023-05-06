@@ -98,10 +98,15 @@ unpacking_tarball() {
 }
 
 make_symlink() {
-    local sfile=$1
-    local tfile=$2
-    write_info "creating symbolic link"
-    ln -s $1 $2 -v
+    local src=$1
+    local dst=$2
+
+    if [ ! -L $dst ]; then
+        write_info "creating symbolic link: $src -> $dst"
+        ln -s $src $dst
+    else
+        write_warning "there already exists a symbolic link in $dst"
+    fi
 }
 
 verify_program() {
