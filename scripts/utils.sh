@@ -1,6 +1,7 @@
 #!/bin/bash
 
 writeln() {
+    local lf=false
     local color=yellow
     local OPTIND verbose=1
 
@@ -26,9 +27,8 @@ writeln() {
 
     printf "$(tput setaf $color_code)%s$(tput sgr 0) " $msg
 
-    if [ "$lf" == "true" ]; then
+    if [ "$lf" = "true" ]; then
         printf "\n"
-        lf=false
     fi
 }
 
@@ -63,7 +63,7 @@ read_version() {
     local msg="enter target version for $program"
 
     if [ ! -z $default ]; then
-        msg+=" (e.g. $default)"
+        msg="$msg (default=$default)"
     fi
 
     write_info $msg
@@ -79,14 +79,35 @@ update_system() {
 install_packages() {
     local packages="$@"
     write_info "installing prerequisites"
-    apt-get install $packages --yes
+    apt-get install --ignore-missing $packages --yes
 }
 
 download_tarball() {
     local url=$1
-    local out=$2
-    write_info "downloading tarball to $PWD"
-    wget $url -O $out
+    local tarball=$2
+    write_info "downloading tarball to $tarball"
+    wget $url -O $tarball
+}
+
+unpacking_tarball() {
+    local tarball=$1
+    local targetdir=$2
+    write_info "unpacking tarball to $targetdir"
+    [ -d $targetdir ] || mkdir -p $targetdir
+    tar -xzf $tarball -C $targetdir
+}
+
+make_symlink() {
+    local sfile=$1
+    local tfile=$2
+    write_info "creating symbolic link"
+    ln -s $1 $2 -v
+}
+
+verify_program() {
+    local program=$1
+    write_info "verifying installation"
+    $program --version
 }
 
 clean_up() {
