@@ -76,6 +76,11 @@ update_system() {
     apt-get update
 }
 
+upgrade_system() {
+    write_info "perform full system upgrade"
+    apt-get full-upgrade --yes
+}
+
 install_packages() {
     local packages="$@"
     write_info "installing prerequisites"
