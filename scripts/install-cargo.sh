@@ -1,7 +1,7 @@
 #!/bin/bash
 
 root=$(git rev-parse --show-toplevel)
-source $root/scripts/utils.sh
+. $root/scripts/utils.sh
 
 pushd /tmp > /dev/null
 
@@ -14,7 +14,7 @@ chmod u+x $script
 bash $script -y
 
 write_info "reconfiguring current shell"
-source "$HOME/.cargo/env"
+. "$HOME/.cargo/env"
 
 clean_up $script
 popd > /dev/null
