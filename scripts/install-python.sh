@@ -39,7 +39,7 @@ cd $targetdir/Python-$version
     LDFLAGS=-Wl,-rpath=$targetdir/lib,--disable-new-dtags
 
 write_info "installing $program"
-make -s -j$(nproc)
+make -j$(nproc)
 make install
 
 verify_program $targetdir/bin/python3
