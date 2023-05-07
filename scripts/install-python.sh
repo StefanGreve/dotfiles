@@ -6,9 +6,14 @@ root=$(git rev-parse --show-toplevel)
 bin=/usr/local
 program="python"
 targetdir=$bin/$program
-default="3.10.9"
+default="3.11.3"
 
-[ -d $targetdir ] || mkdir -p $targetdir
+if [ -d $targetdir ]; then
+    write_info "removing existing $program application"
+    rm -rf $targetdir
+fi
+
+mkdir -p $targetdir
 pushd $bin > /dev/null
 read_version
 
@@ -22,7 +27,7 @@ download_tarball $url $targetdir/$tarball
 
 unpacking_tarball $targetdir/$tarball $targetdir
 
-write_info "installing $program now"
+write_info "configuring $program"
 cd $targetdir/Python-$version
 ./configure \
     --prefix=$targetdir \
@@ -33,7 +38,8 @@ cd $targetdir/Python-$version
     --with-ensurepip=upgrade \
     LDFLAGS=-Wl,-rpath=$targetdir/lib,--disable-new-dtags
 
-make
+write_info "installing $program"
+make -s -j$(nproc)
 make install
 
 verify_program $targetdir/bin/python3
