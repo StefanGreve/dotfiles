@@ -1,0 +1,2 @@
+$root/config/bash/.bashrc=$HOME/.bashrc
+$root/config/bash/.bash_aliases=$HOME/.bash_aliases
