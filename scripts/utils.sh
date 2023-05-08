@@ -108,7 +108,7 @@ make_symlink() {
 
     if [ ! -L $dst ]; then
         write_info "creating symbolic link: $src -> $dst"
-        ln -s $src $dst
+        ln -sf $src $dst
     else
         write_warning "there already exists a symbolic link in $dst"
     fi

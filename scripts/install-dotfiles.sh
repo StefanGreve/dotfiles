@@ -24,5 +24,5 @@ install_dotfiles() {
 
 pushd $root > /dev/null
 install_dotfiles
-echo "done"
+write_success "execution completed"
 popd > /dev/null
