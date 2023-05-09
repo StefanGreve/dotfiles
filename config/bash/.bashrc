@@ -44,14 +44,29 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 
+track_all_branches() {
+    local is_inside_work_tree=$(git rev-parse --is-inside-work-tree 2>/dev/null)
+
+    if [ "$is_inside_work_tree" ]; then
+        git branch -r | grep -v "origin/master" | tr -d ' ' | cut -d '/' -f2 | while read branch
+        do
+            git checkout --track "origin/$branch" 2>/dev/null
+        done
+    else
+        local err_msg="error: not a git repository (or any of the parent directories)"
+        printf "$(tput setaf 196)$err_msg$(tput sgr 0)\n"
+    fi
+}
+
 # ==============================================================================
 # prompt configuration
 # ==============================================================================
 
 parse_git_branch() {
     local branch=''
+    local is_inside_work_tree=$(git rev-parse --is-inside-work-tree 2>/dev/null)
 
-    if [ "$(git rev-parse --is-inside-work-tree 2>&1)" = true ]; then
+    if [ "$is_inside_work_tree" = true ]; then
         branch="($(git branch --show-current))"
     fi
 
