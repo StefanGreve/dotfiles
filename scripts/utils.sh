@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ==============================================================================
+# general helper functions
+# ==============================================================================
+
 writeln() {
     local lf=false
     local color=yellow
@@ -56,7 +60,9 @@ write_error() {
     printf "$args\n"
 }
 
-#region installer file utilities
+# ==============================================================================
+# helper functions for installer scripts
+# ==============================================================================
 
 read_version() {
     # global args: program, default, version
@@ -125,5 +131,3 @@ clean_up() {
     write_info "removing tmp files and build artifacts"
     rm $artifacts --verbose
 }
-
-#endregion
