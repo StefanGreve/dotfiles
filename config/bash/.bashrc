@@ -15,7 +15,6 @@ eval $(ssh-agent) > /dev/null 2>&1
 # shell variables
 # ==============================================================================
 
-shopt -s expand_aliases
 # check the window size after each command and, if necessary, update the values
 # of LINES and COLUMNS
 shopt -s checkwinsize
@@ -51,23 +50,22 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 parse_git_branch() {
     local branch=''
-    is_inside_repo=$(git rev-parse --is-inside-work-tree 2>&1)
 
-    if [ $is_inside_repo = true ]; then
+    if [ "$(git rev-parse --is-inside-work-tree 2>&1)" = true ]; then
         branch="($(git branch --show-current))"
     fi
 
-    printf $branch
+    printf "%s" $branch
 }
 
 parse_venv() {
     local venv=''
 
-    if [ -n $VIRTUAL_ENV ]; then
+    if [ -n "$VIRTUAL_ENV" ]; then
         venv="(${VIRTUAL_ENV##*/})"
     fi
 
-    printf $venv
+    printf "%s" $venv
 }
 
 # [username@hostname]
