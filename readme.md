@@ -1,5 +1,9 @@
 # dotfiles
 
+This repository is deprecated as of October 6, 2023. Linux-specific configuration
+files will be moved to the [`configuration`](https://github.com/stefangreve/configuration)
+repository.
+
 ## Getting Started
 
 To bootstrap the system, run these two scripts in succession first to install
